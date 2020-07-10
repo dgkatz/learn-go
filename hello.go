@@ -2,7 +2,12 @@ package main
 
 import "fmt"
 
-const greetingTemplate string = "Hello, %v for the %v%v time"
+const greetingTemplate string = "Hello, %v %v for the %v%v time"
+
+type Person struct {
+	firstName string
+	lastName string
+}
 
 func countSuffix(count int) (countSuffix string){
 	lastDigit := count % 10
@@ -18,13 +23,23 @@ func countSuffix(count int) (countSuffix string){
 	return
 }
 
-func printName(name string, count int) {
+func createGreeting(person Person, count int) (greeting string){
+	greeting = fmt.Sprintf(
+		greetingTemplate,
+		person.firstName,
+		person.lastName,
+		count,
+		countSuffix(count))
+	return
+}
+
+func printPerson(person Person, count int) {
 	for i := 1; i <= count; i++ {
-		greeting := fmt.Sprintf(greetingTemplate, name, i, countSuffix(i))
-		fmt.Println(greeting)
+		fmt.Println(createGreeting(person, i))
 	}
 }
 
 func main() {
-	printName("Dan", 30)
+	dan := Person{"Dan", "Katz"}
+	printPerson(dan, 30)
 }
